@@ -3,6 +3,7 @@ package br.facens.dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import br.facens.models.Vehicle;
@@ -28,6 +29,35 @@ public class VehicleDAO {
         } catch (SQLException e) {
             System.out.println("Erro na inserção:" + e.getMessage());
             return false;
+        }
+    }
+
+    public static Vehicle search(int cod) {
+        String sql = "select * from vehicles where id = ?;";
+
+        try (
+                Connection connection = DriverManager.getConnection(url, username, password);
+                PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
+
+            preparedStatement.setInt(1, cod);
+
+            ResultSet result = preparedStatement.executeQuery();
+
+            if (result.next()) {
+                String brand = result.getString("brand");
+                String model = result.getString("model");
+                int year = result.getInt("manufacture_year");
+
+                Vehicle vehicle = new Vehicle(cod, brand, model, year);
+
+                return vehicle;
+            }
+
+            return null;
+
+        } catch (SQLException e) {
+            System.out.println("Erro na inserção:" + e.getMessage());
+            return null;
         }
     }
 }

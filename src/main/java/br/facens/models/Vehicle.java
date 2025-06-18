@@ -48,4 +48,10 @@ public class Vehicle {
         this.manufactureYear = manufactureYear;
     }
 
+    @Override
+    public String toString() {
+        return "Vehicle [cod=" + cod + ", brand=" + brand + ", model=" + model + ", manufactureYear=" + manufactureYear
+                + "]";
+    }
+
 }
