@@ -30,4 +30,22 @@ public class VehicleDAO {
             return false;
         }
     }
+
+    public static boolean delete(int cod) {
+        String sql = "delete from vehicles where id = ?;";
+
+        try (
+                Connection connection = DriverManager.getConnection(url, username, password);
+                PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
+
+            preparedStatement.setInt(1, cod);
+
+            int result = preparedStatement.executeUpdate();
+
+            return (result > 0);
+        } catch (SQLException e) {
+            System.out.println("Erro na inserção:" + e.getMessage());
+            return false;
+        }
+    }
 }
